@@ -1,32 +1,51 @@
-#include "include.h"
-int cameradefine=0;
+#include "lib/include.h"
+ cameradefine=0;
 int modoDoJogo=0;
-double cameraX=5,cameraY=5,cameraZ=5;
+GLint terrenoLargura,terrenoProfundidade0;
 
 
 void camera(){
     if(cameradefine == 0){
-        gluLookAt(cameraX,cameraY,cameraZ,1,1,1,2,2,2);
     }else{
-
     }
 }
 
 void redimensionada(int w, int h)
-{
-   glViewport(0,0,(GLsizei) w ,(GLsizei) h);
-   glMatrixMode (GL_PROJECTION);
-   glLoadIdentity ();
-   gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 1.0, 20.0);
-   glMatrixMode(GL_MODELVIEW);
-   glLoadIdentity();
-   glTranslatef (0.0, 0.0, -5.0);
+{/*
+
+    glMatrixMode (GL_PROJECTION);
+    glLoadIdentity ();
+    glFrustum(1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    ;*/
+    glViewport(0,0,(GLsizei) w ,(GLsizei) h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glFrustum(0,100,0,100,0,1);
+    glOrtho()
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glTranslatef (0.0, 0.0, -5.0);
+   	//gluLookAt(, LARGURA/2, 0, 5, 0, 0, 0, 1, 0);
+   	// glTranslatef(0.0,0.0,headZ);
 }
 
 void desenhaCena(){
-
-  glColor3f(0.501, 0.501, 0.501);
-  glutSolidSphere(0.5,100,100);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  camera();
+  luzes();
+  terreno();
+  glColor3f(1.0,1.0,1);
+  glPushMatrix();
+  glScalef(10,10,10);
+  glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(0,0,0);
+    glVertex3f(1,0,0);
+    glVertex3f(1,1,0);
+    glVertex3f(0,1,0);
+  glEnd();
+  glPopMatrix();
   glutSwapBuffers();
 }
 
@@ -37,8 +56,9 @@ void Idle(){
 
 void inicializa(void)
 {
+    luzes();
     camera();
-    glClearColor(1, 1, 1, 1);
+    glClearColor(0,0,0,1.0);
 }
 int main(int argc, char **argv) {
 
@@ -47,7 +67,7 @@ int main(int argc, char **argv) {
       glutInitContextVersion(1,1);
       glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
       glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-      glutInitWindowSize(ALTURA,LARGURA);
+      glutInitWindowSize(LARGURA,ALTURA);
       glutInitWindowPosition(0,0);
       glutCreateWindow("JOGO");
       inicializa();

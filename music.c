@@ -1,4 +1,4 @@
-#include "include.h"
+#include "lib/include.h"
 /*
 Mix_Music *somIntro = NULL;
 Mix_Chunk *somSpell_0 = NULL;
