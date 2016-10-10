@@ -1,8 +1,17 @@
 #include "lib/include.h"
  cameradefine=0;
 int modoDoJogo=0;
-GLint terrenoLargura,terrenoProfundidade0;
+typedef struct ponto {
+  float x,y;
+}PONTO;
+int larguraJanela,alturaJanela;
+PONTO posicaoMouse;
 
+extern float angle=0.0f;
+// actual vector representing the camera's direction
+extern float lx=0.0f,lz=-1.0f;
+// XZ position of the camera
+extern float x=0.0f,z=5.0f;
 
 void camera(){
     if(cameradefine == 0){
@@ -11,54 +20,47 @@ void camera(){
 }
 
 void redimensionada(int w, int h)
-{/*
+{
+     glMatrixMode (GL_PROJECTION);
+     glLoadIdentity ();
+     glViewport (0, 0, (GLsizei) w, (GLsizei) h);
+     larguraJanela=w;
+     alturaJanela=h;
+     glViewport(0, 0, w, h);
+     gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 0.1, 100.0);
+     glMatrixMode(GL_MODELVIEW);
 
-    glMatrixMode (GL_PROJECTION);
-    glLoadIdentity ();
-    glFrustum(1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    ;*/
-    glViewport(0,0,(GLsizei) w ,(GLsizei) h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(0,100,0,100,0,1);
-    glOrtho()
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glTranslatef (0.0, 0.0, -5.0);
-   	//gluLookAt(, LARGURA/2, 0, 5, 0, 0, 0, 1, 0);
-   	// glTranslatef(0.0,0.0,headZ);
 }
 
 void desenhaCena(){
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  camera();
-  luzes();
-  terreno();
-  glColor3f(1.0,1.0,1);
-  glPushMatrix();
-  glScalef(10,10,10);
-  glBegin(GL_TRIANGLE_FAN);
-    glVertex3f(0,0,0);
-    glVertex3f(1,0,0);
-    glVertex3f(1,1,0);
-    glVertex3f(0,1,0);
-  glEnd();
-  glPopMatrix();
-  glutSwapBuffers();
-}
+   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+     glLoadIdentity();
+   gluLookAt(	x, 1.0f, z,
+ 			x+lx, 1.0f,  z+lz,
+ 			0.0f, 1.0f,  0.0f);
 
-void Idle(){
+      //terreno e teto
+      plano(larguraJanela,0,0,0,1.0,0);
+    //  plano(larguraJanela,alturaJanela,50,1,1,1);
 
-  glutPostRedisplay();
+      glColor3f(0, 0,0);
+glPushMatrix();
+// Draw Body
+glTranslatef(0.0f ,1.5f, 0.0f);
+//glutSolidSphere(0.75f,20,20);
+   glutSolidCube (1.0);
+glPopMatrix();
+glPushMatrix();
+glTranslatef(3.0f ,1.5f, 0.0f);
+   glutSolidCube (1.0);
+
+glPopMatrix();
+   glutSwapBuffers();
 }
 
 void inicializa(void)
 {
-    luzes();
-    camera();
-    glClearColor(0,0,0,1.0);
+    glClearColor(0,0,0.6,0.6);
 }
 int main(int argc, char **argv) {
 
@@ -66,17 +68,19 @@ int main(int argc, char **argv) {
       glutInit(&argc, argv);
       glutInitContextVersion(1,1);
       glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
-      glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+      glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE | GLUT_RGBA);
       glutInitWindowSize(LARGURA,ALTURA);
-      glutInitWindowPosition(0,0);
+      glutInitWindowPosition(100,100);
       glutCreateWindow("JOGO");
       inicializa();
 
       glutDisplayFunc(desenhaCena);
       glutReshapeFunc(redimensionada);
+    //   glutPassiveMotionFunc(movimentoMouse);
       glutKeyboardFunc(teclasPressionada);
       glutSpecialFunc(setasPressionadas);
-      glutIdleFunc(Idle);
+      glutIdleFunc(desenhaCena);
+      glEnable(GL_DEPTH_TEST);
       glutMainLoop();
       return 0;
 }

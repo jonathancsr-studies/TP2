@@ -1,20 +1,17 @@
 #include "lib/include.h"
-extern GLint terrenoLargura= 20,terrenoProfundidade = 20;
 
-void terreno(){
-
-  glPushMatrix();
-  glColor3f(0,1,0);
-  glBegin(GL_TRIANGLE_FAN);
-  glVertex3f(0,0,0);
-  glVertex3f(10,0,0);
-  glVertex3f(10,10,0);
-  glVertex3f(0,10,0);
-
-  glEnd();
-  glPopMatrix();
+void plano(int larguraJanela,int alturaJanela,int x,float r,float g,float b){
+    // teto e terreno
+    glPushMatrix();
+    glColor3f(r, g, b);
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(-larguraJanela, alturaJanela, 100.0f);
+    glVertex3f(larguraJanela, alturaJanela, 100.0f);
+    glVertex3f(larguraJanela, alturaJanela-x, -100.0f);
+    glVertex3f(-larguraJanela, alturaJanela-x, -100.0f);
+    glEnd();
+    glPopMatrix();
 }
-
 
 void luzes(){
   float lightAmb[] = { 0.0, 0.0, 0.0, 1.0 };
