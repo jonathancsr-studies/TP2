@@ -14,7 +14,7 @@ void desenhaBracoD(){
   glTranslatef (0.7, 0.0, 0.0);
   glPushMatrix();
   glScalef (1.5, 0.4, 0.2);
-  glutWireCube (1.0);
+  glutSolidCube (1.0);
   glPopMatrix();
   glPopMatrix();
   glPopMatrix();
@@ -31,12 +31,10 @@ void desenhaBracoE(){
   glTranslatef (-0.7, 0.0, 0.0);
   glPushMatrix();
   glScalef (1.5, 0.4, 0.2);
-  glutWireCube (1.0);
+  glutSolidCube (1.0);
   glPopMatrix();
   glPopMatrix();
   glPopMatrix();
-
-
 }
 
 void desenhaPernaE(){
@@ -47,7 +45,7 @@ void desenhaPernaE(){
   glTranslatef (-0.25, -2.0, 0.0);
   glPushMatrix();
   glScalef (0.4, 2.0, 0.3);
-  glutWireCube (1.0);
+  glutSolidCube (1.0);
   glPopMatrix();
   glPopMatrix();
 
@@ -61,7 +59,7 @@ void desenhaPernaD(){
   glTranslatef (0.25, -2.0, 0.0);
   glPushMatrix();
   glScalef (0.4, 2.0, 0.3);
-  glutWireCube (1.0);
+  glutSolidCube (1.0);
   glPopMatrix();
   glPopMatrix();
 }
@@ -71,20 +69,21 @@ void desenhaCabeca(){
   glPushMatrix();
   glTranslatef(0.0,1.50,0.0);
   glScalef(0.6,0.6,0.5);
-  glutWireCube(1);
+  glutSolidCube(1);
   glPopMatrix();
 
 }
 void desenhaPersonagem()
 {
    glClear (GL_COLOR_BUFFER_BIT);
+   glColor3f(0.5,0.5,0.5);
    glPushMatrix();
-   glTranslatef(x,3.0,z-5);
+   glTranslatef(x,3.0,z);
    glPushMatrix();
    glRotatef ((GLfloat) angulo, 0.0, 1.0, 0.0);
    glPushMatrix();
    glScalef(1.0,2.0,0.4);
-   glutWireCube(1);
+   glutSolidCube(1);
    glPopMatrix();
    desenhaBracoE();
    desenhaBracoD();

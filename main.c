@@ -8,16 +8,16 @@ extern float angle=0.0f;
 // actual vector representing the camera's direction
 extern float lx=0.0f,lz=-1.0f;
 // XZ position of the camera
-extern float x=0.0f,z=5.0f;
+extern float x=0.0f,z=5.0f,x1=0,z1=5;
 
 void camera(){
     if(cameradefine == 0){
-    gluLookAt(	x, 4.0f, z,
- 			x+lx, 4.0f,  z+lz,
+    gluLookAt(	x, 5.0f, z,
+ 			x+lx, 5.0f,  z+lz,
  			0.0f, 1.0f,  0.0f);
       }else{
-    gluLookAt(	x, 4.0f, z,
-			x+lx, 4.0f,  z+lz,
+    gluLookAt(	x1, 5.0f, z1+CAMERAPERSONAGEM,
+			x1+lx, 5.0f,  z1+CAMERAPERSONAGEM+lz,
 			0.0f, 1.0f,  0.0f);
 
     }

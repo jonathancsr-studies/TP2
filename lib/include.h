@@ -22,7 +22,7 @@
 #define ALTURA 720
 #define LARGURA 720
 #define PI 3.14
-
+#define CAMERAPERSONAGEM 10
 
 
 
