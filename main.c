@@ -16,6 +16,7 @@ extern float x=0.0f,z=5.0f;
 void camera(){
     if(cameradefine == 0){
     }else{
+
     }
 }
 
@@ -26,7 +27,6 @@ void redimensionada(int w, int h)
      glViewport (0, 0, (GLsizei) w, (GLsizei) h);
      larguraJanela=w;
      alturaJanela=h;
-     glViewport(0, 0, w, h);
      gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 0.1, 100.0);
      glMatrixMode(GL_MODELVIEW);
 
@@ -35,8 +35,8 @@ void redimensionada(int w, int h)
 void desenhaCena(){
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      glLoadIdentity();
-   gluLookAt(	x, 1.0f, z,
- 			x+lx, 1.0f,  z+lz,
+   gluLookAt(	x, 3.0f, z,
+ 			x+lx, 3.0f,  z+lz,
  			0.0f, 1.0f,  0.0f);
 
       //terreno e teto
