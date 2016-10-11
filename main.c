@@ -1,12 +1,9 @@
 #include "lib/include.h"
- cameradefine=0;
+extern int cameradefine=0;
 int modoDoJogo=0;
-typedef struct ponto {
-  float x,y;
-}PONTO;
+extern PERNA p[2];
+extern BRACO b[2];
 int larguraJanela,alturaJanela;
-PONTO posicaoMouse;
-
 extern float angle=0.0f;
 // actual vector representing the camera's direction
 extern float lx=0.0f,lz=-1.0f;
@@ -15,7 +12,13 @@ extern float x=0.0f,z=5.0f;
 
 void camera(){
     if(cameradefine == 0){
-    }else{
+    gluLookAt(	x, 4.0f, z,
+ 			x+lx, 4.0f,  z+lz,
+ 			0.0f, 1.0f,  0.0f);
+      }else{
+    gluLookAt(	x, 4.0f, z,
+			x+lx, 4.0f,  z+lz,
+			0.0f, 1.0f,  0.0f);
 
     }
 }
@@ -27,7 +30,7 @@ void redimensionada(int w, int h)
      glViewport (0, 0, (GLsizei) w, (GLsizei) h);
      larguraJanela=w;
      alturaJanela=h;
-     gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 0.1, 100.0);
+     gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 1.0, 100.0);
      glMatrixMode(GL_MODELVIEW);
 
 }
@@ -35,32 +38,29 @@ void redimensionada(int w, int h)
 void desenhaCena(){
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
      glLoadIdentity();
-   gluLookAt(	x, 3.0f, z,
- 			x+lx, 3.0f,  z+lz,
- 			0.0f, 1.0f,  0.0f);
-
+     camera();
       //terreno e teto
-      plano(larguraJanela,0,0,0,1.0,0);
+      desenhaPersonagem();
+      plano(larguraJanela,0,0,1,0);
     //  plano(larguraJanela,alturaJanela,50,1,1,1);
-
       glColor3f(0, 0,0);
-glPushMatrix();
-// Draw Body
-glTranslatef(0.0f ,1.5f, 0.0f);
-//glutSolidSphere(0.75f,20,20);
-   glutSolidCube (1.0);
-glPopMatrix();
-glPushMatrix();
-glTranslatef(3.0f ,1.5f, 0.0f);
-   glutSolidCube (1.0);
+      glPushMatrix();
+      // Draw Body
+      glTranslatef(0.0f ,1.5f, 0.0f);
+      //glutSolidSphere(0.75f,20,20);
+         glutSolidCube (1.0);
+      glPopMatrix();
+      glPushMatrix();
+      glTranslatef(3.0f ,1.5f, 0.0f);
+         glutSolidCube (1.0);
 
-glPopMatrix();
+      glPopMatrix();
    glutSwapBuffers();
 }
 
 void inicializa(void)
 {
-    glClearColor(0,0,0.6,0.6);
+    glClearColor(0.0,0.3,1.0,1.0);
 }
 int main(int argc, char **argv) {
 
@@ -76,7 +76,6 @@ int main(int argc, char **argv) {
 
       glutDisplayFunc(desenhaCena);
       glutReshapeFunc(redimensionada);
-    //   glutPassiveMotionFunc(movimentoMouse);
       glutKeyboardFunc(teclasPressionada);
       glutSpecialFunc(setasPressionadas);
       glutIdleFunc(desenhaCena);

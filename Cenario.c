@@ -1,14 +1,14 @@
 #include "lib/include.h"
 
-void plano(int larguraJanela,int alturaJanela,int x,float r,float g,float b){
+void plano(int larguraJanela,int alturaJanela,float r,float g,float b){
     // teto e terreno
     glPushMatrix();
     glColor3f(r, g, b);
     glBegin(GL_TRIANGLE_FAN);
     glVertex3f(-larguraJanela, alturaJanela, 100.0f);
     glVertex3f(larguraJanela, alturaJanela, 100.0f);
-    glVertex3f(larguraJanela, alturaJanela-x, -100.0f);
-    glVertex3f(-larguraJanela, alturaJanela-x, -100.0f);
+    glVertex3f(larguraJanela, alturaJanela, -100.0f);
+    glVertex3f(-larguraJanela, alturaJanela, -100.0f);
     glEnd();
     glPopMatrix();
 }
