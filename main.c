@@ -42,19 +42,17 @@ void desenhaCena(){
       //terreno e teto
       desenhaPersonagem();
       plano(larguraJanela,0,0,1,0);
-    //  plano(larguraJanela,alturaJanela,50,1,1,1);
       glColor3f(0, 0,0);
       glPushMatrix();
       // Draw Body
       glTranslatef(0.0f ,1.5f, 0.0f);
-      //glutSolidSphere(0.75f,20,20);
          glutSolidCube (1.0);
       glPopMatrix();
       glPushMatrix();
       glTranslatef(3.0f ,1.5f, 0.0f);
          glutSolidCube (1.0);
-
       glPopMatrix();
+      carregaMapa();
    glutSwapBuffers();
 }
 

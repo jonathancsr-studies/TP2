@@ -27,5 +27,4 @@ void luzes(){
   glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec0);
   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);
   //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, localViewer);
-
 }
