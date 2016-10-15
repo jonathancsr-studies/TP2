@@ -45,7 +45,7 @@ float fraction = 0.1f;
 			x += lx * fraction;
 			z += lz * fraction;
 			break;
-            case'c':
+    case'c':
     case'C':
                 if(cameradefine){
                       cameradefine=0;
@@ -54,7 +54,7 @@ float fraction = 0.1f;
                 }
                 break;
 
-             case'v':
+    case'v':
     case'V':
             if(lanterna){
                   lanterna=0;

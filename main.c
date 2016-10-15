@@ -36,28 +36,29 @@ void redimensionada(int w, int h)
 }
 
 void desenhaCena(){
-   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-     glLoadIdentity();
-     camera();
+  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glLoadIdentity();
+  //ATIVA A CAMERA GLULOOKAT
+  camera();
+  //DESENHA O PERSONAGEM
+  desenhaPersonagem();
+  //terreno e teto
+  plano(larguraJanela,0,0.2,0,0);
 
-      desenhaPersonagem();
-      //terreno e teto
-      plano(larguraJanela,0,0.2,0,0);
-    //  plano(larguraJanela,alturaJanela,50,1,1,1);
-      glColor3f(0, 0,0);
-      glPushMatrix();
-      // Draw Body
-      glTranslatef(0.0f ,1.5f, 0.0f);
-      //glutSolidSphere(0.75f,20,20);
-         glutSolidCube (1.0);
-      glPopMatrix();
-      glPushMatrix();
-      glTranslatef(3.0f ,1.5f, 0.0f);
-         glutSolidCube (1.0);
-      glTranslatef(2.0f,0.0f,5.0f);
-      glutSolidSphere(1,10,10);
-      glPopMatrix();
-   glutSwapBuffers();
+  glColor3f(0, 0,0);
+
+  glPushMatrix();
+    glTranslatef(0.0f ,1.5f, 0.0f);
+    glutSolidCube (1.0);
+  glPopMatrix();
+  glPushMatrix();
+    glTranslatef(3.0f ,1.5f, 0.0f);
+    glutSolidCube (1.0);
+    glTranslatef(2.0f,0.0f,5.0f);
+    glutSolidSphere(1,10,10);
+  glPopMatrix();
+
+  glutSwapBuffers();
 }
 
 void inicializa(void)
