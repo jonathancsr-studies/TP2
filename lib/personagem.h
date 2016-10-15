@@ -1,10 +1,10 @@
 #ifndef PERSONAGEM_H
 #define PERSONAGEM_H
 typedef struct perna{
-    int angulo;
+    float angulo;
 }PERNA;
 typedef struct braco{
-  int angulo;
+    float angulo;
 }BRACO;
 
 void desenhaPersonagem();
@@ -13,5 +13,6 @@ void desenhaPernaD();
 void desenhaPernaE();
 void desenhaBracoE();
 void desenhaBracoD();
+void movimentacaoMembros(int option);
 
 #endif

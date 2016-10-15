@@ -23,8 +23,6 @@
 #define LARGURA 720
 #define PI 3.14
 #define CAMERAPERSONAGEM 10
-
-
-
-
+#define VELOCIDADEPERNAS 0.5
+#define VELOCIDADEBRACOS 1.0
 #endif

@@ -27,4 +27,19 @@ void luzes(){
   glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec0);
   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globAmb);
   //glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, localViewer);
+
+}
+
+void desenhaLanterna(){
+      glPushMatrix();
+      glColor3f(0.1,0.1,0);
+      //glRotatef ((GLfloat) angulo, 0.0, 0, 1.0);
+      glPushMatrix();
+      glScalef(0.15,0.15,0.5);
+      glutSolidCube(1);
+      glPopMatrix();
+      glTranslatef(0,0,-0.2);
+      glColor3f(0.9,0.9,0);
+      glutSolidSphere(0.1,10,10);
+      glPopMatrix();
 }
