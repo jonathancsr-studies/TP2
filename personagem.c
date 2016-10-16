@@ -4,7 +4,7 @@ int angle;
 PERNA p[2];
 BRACO b[2];
 int andar=1,braco=1,lanterna;
-float x,z;
+extern ponto entrada;
 void desenhaBracoD(){
 
   glPushMatrix();
@@ -86,7 +86,7 @@ void desenhaPersonagem()
    glClear (GL_COLOR_BUFFER_BIT);
    glColor3f(0.5,0.5,0.5);
    glPushMatrix();
-   glTranslatef(x,3.0,z);
+    glTranslatef(entrada.x+1,3.0,entrada.z+1);
    glPushMatrix();
    glRotatef ((GLfloat) angulo, 0.0, 1.0, 0.0);
    glPushMatrix();
@@ -103,8 +103,6 @@ void desenhaPersonagem()
 }
 
 void movimentacaoMembros(int option){
-
-
       if(option){
             if(andar){
                 if(p[0].angulo<=10){

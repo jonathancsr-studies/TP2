@@ -3,16 +3,16 @@ extern GLint cameraX,cameraY,cameraZ;
 float angle;
 int angulo;
 // actual vector representing the camera's direction
-float lx,lz;
+float lx,lz,ly;
 // XZ position of the camera
-float x,z;
+float x,z,y;
 int cameradefine,lanterna;
 PERNA p[2];
 BRACO b[2];
 float x,z;
 void teclasPressionada(unsigned char key, int a, int w){
 
-float fraction = 0.1f;
+float fraction = 0.2f;
 
   switch (key) {
             case' ':
@@ -64,6 +64,12 @@ float fraction = 0.1f;
                   b[1].angulo=40;
             }
           break;
+     case'q':
+     		y++; 
+    		break;
+     case'Q':
+ 		y--; 
+		break;
     case 27:
         exit(0);
         break;

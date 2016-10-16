@@ -25,4 +25,18 @@
 #define CAMERAPERSONAGEM 10
 #define VELOCIDADEPERNAS 0.5
 #define VELOCIDADEBRACOS 1.0
+
+typedef struct coords {
+  union {
+      float v[4];
+      struct {
+          float x, y, z, w;
+      };
+      struct {
+          float r, g, b, a;
+      };
+  };
+} ponto, vetor, cor;
+
+
 #endif
