@@ -33,7 +33,7 @@ void redimensionada(int w, int h)
      glViewport (0, 0, (GLsizei) w, (GLsizei) h);
      larguraJanela=w;
      alturaJanela=h;
-     gluPerspective(90.0, (GLfloat) w/(GLfloat) h, 0.9, 100.0);
+     gluPerspective(65.0, (GLfloat) w/(GLfloat) h, 0.9, 100.0);
      glMatrixMode(GL_MODELVIEW);
 }
 
@@ -54,7 +54,7 @@ void desenhaCena(){
 
 void inicializa(void)
 {
-	carregaMapa(matriz_cores_map);
+	  carregaMapa(matriz_cores_map);
     glClearColor(0.6,0.0,0.0,1.0);
 }
 

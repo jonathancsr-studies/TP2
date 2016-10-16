@@ -65,10 +65,10 @@ float fraction = 0.2f;
             }
           break;
      case'q':
-     		y++; 
+     		y++;
     		break;
      case'Q':
- 		y--; 
+ 		     y--; 
 		break;
     case 27:
         exit(0);

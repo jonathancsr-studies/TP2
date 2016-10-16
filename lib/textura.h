@@ -1,12 +1,16 @@
 #ifndef TEXTURA_H
 #define TEXTURA_H
+GLuint textureWalls;
+
 
 typedef struct mapaCores
 {
 	float crgb[3]
 }MAPACORES;
 
-void cubo3d(float x, float y, float z, float largura, float altura, float profundidade);
+unsigned int loadTexture(char nometextura[]);
+void loadTexture();
+
 
 
 #endif
