@@ -39,22 +39,28 @@ void redimensionada(int w, int h)
 
 void desenhaCena(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
+  glEnable(GL_LIGHTING);
+  glShadeModel(GL_SMOOTH);
+  glLoadIdentity();
 	//ATIVA A CAMERA GLULOOKAT
 	camera();
+  //DESENHA LUZES
+  luzes();
 	//DESENHA O PERSONAGEM
 	desenhaPersonagem();
 	//DESENHA TERRENO E TETO
-	plano(larguraJanela,0,0.2,0,0);
+	plano(larguraJanela,0,1,1,1);
   //DESENHA O LABIRINTO
 	desenhaMapa(matriz_cores_map);
 
+  glDisable(GL_LIGHTING);
   glutSwapBuffers();
 }
 
 void inicializa(void)
 {
 	  carregaMapa(matriz_cores_map);
+    configuraIluminacao();
     glClearColor(0.6,0.0,0.0,1.0);
 }
 

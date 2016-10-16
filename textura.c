@@ -1,7 +1,7 @@
 #include "lib/include.h"
 
 
-unsigned int loadTexture(char nometextura[]){
+unsigned int loadFileTexture(char nometextura[]){
     glClearColor (1, 1, 1, 0);
 
     GLuint tex = SOIL_load_OGL_texture(
@@ -22,6 +22,5 @@ unsigned int loadTexture(char nometextura[]){
 }
 
 void loadTexture(){
-	textureWalls = loadTexture("");
-
+	textureWalls = loadFileTexture("./texture/texture_wall/wall.tif");
 }

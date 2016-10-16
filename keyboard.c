@@ -9,10 +9,10 @@ float x,z,y;
 int cameradefine,lanterna;
 PERNA p[2];
 BRACO b[2];
-float x,z;
+//float x,z;
 void teclasPressionada(unsigned char key, int a, int w){
 
-float fraction = 0.2f;
+float fraction = 0.1f;
 
   switch (key) {
             case' ':
@@ -68,7 +68,7 @@ float fraction = 0.2f;
      		y++;
     		break;
      case'Q':
- 		     y--; 
+ 		     y--;
 		break;
     case 27:
         exit(0);

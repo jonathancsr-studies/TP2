@@ -5,6 +5,23 @@ PERNA p[2];
 BRACO b[2];
 int andar=1,braco=1,lanterna;
 extern ponto entrada;
+
+
+
+void desenhaLanterna(){
+      glPushMatrix();
+      glColor3f(0.1,0.1,0);
+      //glRotatef ((GLfloat) angulo, 0.0, 0, 1.0);
+      glPushMatrix();
+      glScalef(0.15,0.15,0.5);
+      glutSolidCube(1);
+      glPopMatrix();
+      glTranslatef(0,0,-0.2);
+      glColor3f(0.9,0.9,0);
+      glutSolidSphere(0.1,10,10);
+      glPopMatrix();
+}
+
 void desenhaBracoD(){
 
   glPushMatrix();
