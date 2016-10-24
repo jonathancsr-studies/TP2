@@ -1,18 +1,29 @@
 #include "lib/include.h"
+#include "generators/generator.h"
+#include "io/tui.h"
+#include "io/arquivador.h"
+
 extern int cameradefine=0;
 extern int lanterna=0;
 int modoDoJogo=0;
-MAPACORES matriz_cores_map[200*200];
+extern MAPACORES matriz_cores_map[200][200];
 extern PERNA p[2];
 extern BRACO b[2];
+extern char mapLab;
+// Labirinto tamanhao
+int linhas=20,colunas=20;
+//
 int larguraJanela,alturaJanela;
 extern float angle=0.0f;
 // actual vector representing the camera's direction
 extern float lx=0.0f,lz=-1.0f,ly= 0.0f;
 // XZ position of the camera
-extern float x=0.0f,z=5.0f,y=4.0f;
+extern float x=0.0f,z=5.0f,y=2.0f;
 extern int width, height;
 extern float posicaoX,posicaoZ;
+extern ponto entrada;
+Labirinto lab_Master;
+
 
 void camera(){
     if(cameradefine == 0){
@@ -45,26 +56,28 @@ void desenhaCena(){
 	//ATIVA A CAMERA GLULOOKAT
 	camera();
   //DESENHA LUZES
-  luzes();
+  //luzes();
 	//DESENHA O PERSONAGEM
 	desenhaPersonagem();
-	//DESENHA TERRENO E TETO
-	plano(larguraJanela,0,1,1,1);
+  //DESENHA TERRENO E TETO
+	plano(x,z,larguraJanela,0,1,1,1);
   //DESENHA O LABIRINTO
-	desenhaMapa(matriz_cores_map);
-
+  desenhaLabirinto(lab_Master);
   glDisable(GL_LIGHTING);
   glutSwapBuffers();
 }
 
 void inicializa(void)
 {
-	  carregaMapa(matriz_cores_map);
-    configuraIluminacao();
-    glClearColor(0.6,0.0,0.0,1.0);
+  //carregaMapa(matriz_cores_map);
+  geraLabirinto(lab_Master);
+  configuraIluminacao();
+  glClearColor(0.6,0.0,0.0,1.0);
+  x=entrada.x,z=entrada.z,y=4.0f;
 }
 
 int main(int argc, char **argv) {
+
 
       glutInit(&argc, argv);
       glutInitContextVersion(1,1);
