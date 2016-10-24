@@ -9,6 +9,7 @@ float x,z,y;
 int cameradefine,lanterna;
 PERNA p[2];
 BRACO b[2];
+MAPACORES matriz_cores_map[200][200];
 //float x,z;
 void teclasPressionada(unsigned char key, int a, int w){
 
@@ -16,7 +17,7 @@ float fraction = 0.1f;
 
   switch (key) {
             case' ':
-                  angulo++;
+                  y++;
                   break;
 		case 'a' :
     case 'A' :
@@ -79,11 +80,18 @@ float fraction = 0.1f;
   glutPostRedisplay();
 }
 
+
 void setasPressionadas(int key, int a, int b){
 
+      float fraction = 1.0f;
+      int x1=x/6,z1=z/6,lx1=lx/6,lz1=lz/6;
 
-      float fraction = 0.1f;
-
+      if(x<0){
+            x1=-x/6;
+      }
+      if(z<0){
+            z1=-z/6;
+      }
       switch (key) {
             case GLUT_KEY_LEFT :
             angle -= PI/2;
@@ -99,14 +107,22 @@ void setasPressionadas(int key, int a, int b){
             angulo-=90;
                   break;
             case GLUT_KEY_UP :
+            printf("\n %d %d",x1,z1);
+            printf("\n %f %f",x,z);
+            printf("\n %f %f  %f",matriz_cores_map[x1+lx1][z1+lz1].crgb[0],matriz_cores_map[x1+lx1][z1+lz1].crgb[1],matriz_cores_map[x1+lx1][z1+lz1].crgb[2]);
+            if(matriz_cores_map[x1+lx1][z1+lz1].crgb[0]!=0  || matriz_cores_map[x1+lx1][z1+lz1].crgb[1]!=0 || matriz_cores_map[x1+lx1][z1+lz1].crgb[2]!=0){
+
             movimentacaoMembros(0);
             x += lx * fraction;
             z += lz * fraction;
+      }
                   break;
             case GLUT_KEY_DOWN :
+            if(matriz_cores_map[x1][z1].crgb[0]!=0  || matriz_cores_map[x1][z1].crgb[1]!=0 || matriz_cores_map[x1][z1].crgb[2]!=0){
             movimentacaoMembros(1);
             x -= lx * fraction;
             z -= lz * fraction;
                   break;
+            }
       }
 }

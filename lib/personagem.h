@@ -14,5 +14,4 @@ void desenhaPernaE();
 void desenhaBracoE();
 void desenhaBracoD();
 void movimentacaoMembros(int option);
-
 #endif
