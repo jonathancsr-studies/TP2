@@ -1,6 +1,14 @@
 #ifndef INCLUDE_H
 #define INCLUDE_H
 
+#include "../solvers/solver.h"
+#include "../io/tui.h"
+#include "../io/arquivador.h"
+#include "../generators/generator.h"
+#include "../commons/labirinto.h"
+#include "../commons/bits.h"
+#include "../commons/error.h"
+#include "../commons/coordinates.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <GL/glew.h>
@@ -18,6 +26,8 @@
 #include "keyboard.h"
 #include "textura.h"
 #include "music.h"
+
+
 
 #define ALTURA 720
 #define LARGURA 720

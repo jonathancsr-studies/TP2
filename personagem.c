@@ -5,8 +5,7 @@ PERNA p[2];
 BRACO b[2];
 int andar=1,braco=1,lanterna;
 extern ponto entrada;
-
-
+float x,z;
 
 void desenhaLanterna(){
       glPushMatrix();
@@ -103,7 +102,7 @@ void desenhaPersonagem()
    glClear (GL_COLOR_BUFFER_BIT);
    glColor3f(0.5,0.5,0.5);
    glPushMatrix();
-    glTranslatef(entrada.x+1,3.0,entrada.z+1);
+    glTranslatef(x,3.0,z);
    glPushMatrix();
    glRotatef ((GLfloat) angulo, 0.0, 1.0, 0.0);
    glPushMatrix();

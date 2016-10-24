@@ -26,15 +26,19 @@ typedef struct material {
     float brilhosidade[1];
 } material;
 
+
+
 material plasticoAzul, marromFosco;
 ponto posicaoDaLuz;
 
 void desenhaLanterna();
-void plano(int larguraJanela,int alturaJanela,float r,float g,float b);
+void plano(float x1,float z1,int larguraJanela,int alturaJanela,float r,float g,float b);
 // LABIRINTO
 void cubo3d(float x, float y, float z, float largura, float altura, float profundidade);
 void desenhaMapaParede(float x, float y, float z, float largura, float altura, float profundidade);
-void carregaMapa(MAPACORES aux[]);
-void desenhaMapa(MAPACORES aux[]);
-
+void printyx(int y, int x);
+void markyx(int y, int x);
+void resolveLabirinto();
+void desenhaLabirinto(Labirinto labirinto);
+void geraLabirinto();
 #endif // CENARIO_H
