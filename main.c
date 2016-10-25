@@ -14,13 +14,13 @@ extern char mapLab;
 int linhas=4,colunas=4;
 extern int pular=0;
 int larguraJanela,alturaJanela;
-extern float angle=0.0f;
+extern float angle=3.14f;
 // actual vector representing the camera's direction
 extern float lx=0.0f,lz=-1.0f,ly= 0.0f;
 // XZ position of the camera
 extern float camera_x=0.0f,camera_z=5.0f,camera_y=2.0f;
 extern int width, height;
-extern float posicaoX,posicaoZ;
+float posicaoX,posicaoZ;
 extern ponto entrada,saida;
 Labirinto lab_Master;
 extern matrizz[200][200];
@@ -66,10 +66,6 @@ void desenhaCena(){
 	plano(camera_x,camera_z,larguraJanela,0,1,1,1);
   //DESENHA O LABIRINTO
   desenhaLabirinto(lab_Master);
-  glPushMatrix();
-    glTranslatef(linhas+2,2.0,colunas+2);
-    glutSolidTeapot(3);
-  glPopMatrix();
   glDisable(GL_LIGHTING);
   glutSwapBuffers();
 }
@@ -82,8 +78,6 @@ void inicializa(void)
   abrir_audio();
   glClearColor(0.6,0.0,0.0,1.0);
   camera_x=8,camera_z=8,camera_y=4.0f;
-  matrizmovimento(lab_Master);
-
 }
 
 int main(int argc, char **argv) {
@@ -107,7 +101,6 @@ int main(int argc, char **argv) {
       glutIdleFunc(desenhaCena);
       glEnable(GL_DEPTH_TEST);
       atexit (SDL_Quit);
-      printf("saida.x = %lf saida.z = %lf\n",saida.x,saida.z);
       glutMainLoop();
       return 0;
 }

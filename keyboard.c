@@ -37,6 +37,9 @@ z=(camera_z/4)-1;
 		case 'd' :
     case 'D' :
 			angle += (5*PI)/180;
+      if(angle == 628/100)
+        angle=0;
+      printf("%f\n",angle );
 			lx = sin(angle);
 			lz = -cos(angle);
                   angulo-=5;

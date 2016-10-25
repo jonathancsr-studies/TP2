@@ -1,7 +1,6 @@
 #ifndef CENARIO_H
 #define CENARIO_H
 
-
 void plano(float x1,float z1,int larguraJanela,int alturaJanela,float r,float g,float b);
 // LABIRINTO
 void cubo3d(float x, float y, float z, float largura, float altura, float profundidade);

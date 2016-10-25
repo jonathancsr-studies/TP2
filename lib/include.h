@@ -37,12 +37,6 @@
 #define VELOCIDADEPERNAS 0.5
 #define VELOCIDADEBRACOS 1.0
 
-
-typedef struct mapaCores
-{
-	float crgb[3]
-}MAPACORES;
-
 typedef struct coords {
   union {
       float v[4];

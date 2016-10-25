@@ -4,7 +4,8 @@ float camera_x,camera_z,angle,lx,lz;
 int cameradefine;
 extern Labirinto lab_Master;
 extern int linhas,colunas;
-int contItens=0;
+extern int posicaoX,posicaoZ;
+int contItens=0,saidaPosicaoX,saidaPosicaoZ;
 extern material Parede;
 char matriz_map[200][200];
 
@@ -22,9 +23,8 @@ void plano(float x1,float z1,int larguraJanela,int alturaJanela,float r,float g,
 }
 
 // LABIRINTO
-ponto entrada,saida;
 void comecarJogoNovo() {
-  x=z=6;
+  camera_x=8,camera_z=8;
   contItens=0;
   inicializa();
 }
@@ -44,6 +44,7 @@ void cubo3d(float x, float y, float z, float largura, float altura, float profun
 		glBindTexture(GL_TEXTURE_2D, textureWalls);
 
     //cima
+    //baixo
 		glBegin(GL_TRIANGLE_FAN);
 			glNormal3f(0,1,0);
 			glTexCoord2f(0,0); glVertex3f(x-largura,y+altura,z-profundidade);
@@ -51,7 +52,6 @@ void cubo3d(float x, float y, float z, float largura, float altura, float profun
 			glTexCoord2f(1,1); glVertex3f(x+largura,y+altura,z+profundidade);
 			glTexCoord2f(0,1); glVertex3f(x-largura,y+altura,z+profundidade);
 		glEnd();
-		//baixo
 		glBegin(GL_TRIANGLE_FAN);
 			glNormal3f(0,-1,0);
 			glTexCoord2f(0,0); glVertex3f(x-largura,y-altura,z-profundidade);
@@ -93,13 +93,10 @@ void cubo3d(float x, float y, float z, float largura, float altura, float profun
 		glEnd();
 	glPopMatrix();
   glDisable(GL_TEXTURE_2D);
-
-
 }
 
 void desenhaMapaParede(float x, float y, float z, float largura, float altura, float profundidade){
 	glPushMatrix();
-	glColor3f(0,0,0);
   glTranslatef(x,y,z);
  	  cubo3d(x,y,z,largura,altura,profundidade);
   glPopMatrix();
@@ -126,43 +123,50 @@ void itenAleatorio() {
   cor[0] = (rand()%100)/100;
   cor[1] = (rand()%100)/100;
   cor[2] = (rand()%100)/100;
-
-  if(x>0 && x <60){
-    glPushMatrix();
-      glTranslatef(posicaoX,1.5f,posicaoZ);
-      glutSolidSphere(1.5,20,20);
-    glPopMatrix();
-    contItens++;
-  }else if(x>90 && x <150){
-    glPushMatrix();
-      glTranslatef(posicaoX,1.5f,posicaoZ);
-      glutSolidTetrahedron();
-    glPopMatrix();
-    contItens++;
-  }else if(x>1480 && x <1560){
-    glPushMatrix();
-      glTranslatef(posicaoX,1.5f,posicaoZ);
-      glutSolidOctahedron();
-    glPopMatrix();
-    contItens++;
-  }else if(x>400 && x <570){
-    glPushMatrix();
-      glTranslatef(posicaoX,1.5f,posicaoZ);
-    glutSolidDodecahedron();
-    glPopMatrix();
-    contItens++;
-  }else if(x>1200 && x <1375){
-    glPushMatrix();
-      glTranslatef(posicaoX,1.5f,posicaoZ);
-    glutSolidIcosahedron();
-    glPopMatrix();
-    contItens++;
-  }else if(x>5200 && x<5575){
-    glPushMatrix();
-      glTranslatef(posicaoX,1.5f,posicaoZ);
-    glutSolidTeapot(2);
-    glPopMatrix();
-    contItens++;
+if(contItens<10){
+    if(x>0 && x <60){
+      materialaobjetos();
+      glPushMatrix();
+        glTranslatef(posicaoX,1.5f,posicaoZ);
+        glutSolidSphere(1.5,20,20);
+      glPopMatrix();
+      contItens++;
+    }else if(x>90 && x <150){
+      materialaobjetos();
+      glPushMatrix();
+        glTranslatef(posicaoX,1.5f,posicaoZ);
+        glutSolidTetrahedron();
+      glPopMatrix();
+      contItens++;
+    }else if(x>1480 && x <1560){
+      materialaobjetos();
+      glPushMatrix();
+        glTranslatef(posicaoX,1.5f,posicaoZ);
+        glutSolidOctahedron();
+      glPopMatrix();
+      contItens++;
+    }else if(x>400 && x <570){
+      materialaobjetos();
+      glPushMatrix();
+        glTranslatef(posicaoX,1.5f,posicaoZ);
+      glutSolidDodecahedron();
+      glPopMatrix();
+      contItens++;
+    }else if(x>1200 && x <1375){
+      materialaobjetos();
+      glPushMatrix();
+        glTranslatef(posicaoX,1.5f,posicaoZ);
+      glutSolidIcosahedron();
+      glPopMatrix();
+      contItens++;
+    }else if(x>5200 && x<5575){
+      materialaobjetos();
+      glPushMatrix();
+        glTranslatef(posicaoX,1.5f,posicaoZ);
+      glutSolidTeapot(2);
+      glPopMatrix();
+      contItens++;
+    }
   }
 }
 
@@ -193,18 +197,18 @@ void desenhaLabirinto(Labirinto labirinto){
       posicaoZ += 4;
       posicaoX = 0;
   }
-
-  glColor3f(0.8f,0.0f,0.0f);
+  saidaPosicaoX = ((colunas-1)*4)+4;
+  saidaPosicaoZ = ((linhas-1)*4)+4;
   glPushMatrix();
-    glTranslatef(saida.x,2.0f,saida.z);
-    glutSolidSphere(2,30,30);
+    materialObjetoSaida();
+    glTranslatef(saidaPosicaoX,3.0f,saidaPosicaoZ);
+    glColor3f(0.8f,0.0f,0.0f);
+    glutSolidSphere(1,50,50);
   glPopMatrix();
-
 }
 void desenhaFog(){
   float cor[3] = { 0.2f, 0.6f, 1.0f };
   glClearColor(cor[0], cor[1], cor[2], 1.0f);
-
   glFogi(GL_FOG_MODE, GL_EXP);        // Linear, exp. ou exp²
   glFogfv(GL_FOG_COLOR, cor);         // Cor
   glFogf(GL_FOG_DENSITY, 0.01f);      // Densidade

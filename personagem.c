@@ -194,11 +194,34 @@ void puloPersonagem(){
 
       if(maximo==0){
             camera_y+=0.5;
+            if (angle>(3.14*3)/4 &&angle<(3.14*5)/4 ) {
+              camera_z-=0.25;
+            }else if(angle >5,49779 && angle<0,785398)
+            {
+              camera_z+=0.25;
+            }else if (angle < (3.14*3)/4 && angle > (3.14*5)/4 ) {
+              camera_x-=0.25;
+            }else if(angle < 5,49779 && angle > 0,785398)
+            {
+              camera_x+=0.25;
+            }
+
             if(camera_y>=7.0){
             maximo=1;
             }
       }else{
             camera_y-=0.5;
+            if (angle>(3.14*3)/4 &&angle<(3.14*5)/4 ) {
+              camera_z-=0.25;
+            }else if(angle >5,49779 && angle<0,785398)
+            {
+              camera_z+=0.25;
+            }else if (angle < (3.14*3)/4 && angle > (3.14*5)/4 ) {
+              camera_x-=0.25;
+            }else if(angle < 5,49779 && angle > 0,785398)
+            {
+              camera_x+=0.25;
+            }
       }
 
       if(maximo==1&&camera_y<=3)
@@ -206,6 +229,7 @@ void puloPersonagem(){
             pular=0;
             maximo=0;
       }
+      printf("%lf \n",angle );
 
       if(pular)
       glutTimerFunc(50,puloPersonagem,0);
