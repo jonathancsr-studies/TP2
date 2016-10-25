@@ -22,5 +22,5 @@ unsigned int loadFileTexture(char nometextura[]){
 }
 
 void loadTexture(){
-	textureWalls = loadFileTexture("./texture/texture_wall/wall.tif");
+	textureWalls = loadFileTexture("./texture/texture_wall/wall.png");
 }

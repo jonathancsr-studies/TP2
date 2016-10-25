@@ -26,6 +26,7 @@
 #include "keyboard.h"
 #include "textura.h"
 #include "music.h"
+#include "iluminacao.h"
 
 
 
@@ -37,6 +38,30 @@
 #define VELOCIDADEBRACOS 1.0
 
 
+typedef struct mapaCores
+{
+	float crgb[3]
+}MAPACORES;
+
+typedef struct coords {
+  union {
+      float v[4];
+      struct {
+          float x, y, z, w;
+      };
+      struct {
+          float r, g, b, a;
+      };
+  };
+} ponto, vetor, cor;
+
+typedef struct material {
+    cor ambiente;
+    cor emissiva;
+    cor difusa;
+    cor especular;
+    float brilhosidade[1];
+} material;
 
 
 #endif

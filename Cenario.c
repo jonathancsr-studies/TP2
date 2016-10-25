@@ -4,7 +4,10 @@ float camera_x,camera_z,angle,lx,lz;
 int cameradefine;
 extern Labirinto lab_Master;
 extern int linhas,colunas;
-int matrizz[200][200];
+int contItens=0;
+extern material Parede;
+char matriz_map[200][200];
+
 void plano(float x1,float z1,int larguraJanela,int alturaJanela,float r,float g,float b){
     // teto e terreno
     glPushMatrix();
@@ -18,48 +21,26 @@ void plano(float x1,float z1,int larguraJanela,int alturaJanela,float r,float g,
     glPopMatrix();
 }
 
-void configuraIluminacao() {
-    plasticoAzul.ambiente = (cor){ 0.1, 0.1, 0.1, 1 };
-    plasticoAzul.emissiva = (cor){ 0, 0, 0, 1 };
-    plasticoAzul.difusa = (cor){ 0.1, 0.1, 0.4, 1 };
-    plasticoAzul.especular = (cor){ 1, 1, 1, 1 };
-    plasticoAzul.brilhosidade[0] = 100;
-
-    marromFosco.ambiente = (cor){ 0.1, 0.1, 0.1, 1 };
-    marromFosco.emissiva = (cor){ 0, 0, 0, 1 };
-    marromFosco.difusa = (cor){ .49, .22, .02, 1 };
-    marromFosco.especular = (cor){ 0, 0, 0, 1 };
-    marromFosco.brilhosidade[0] = 0;
-
-
-    posicaoDaLuz = (ponto){ 0, 0, -1, 1 };
-    cor corDaLuz = { 1.0, 1.0, 1.0, 1.0 };
-    glClearColor (0.0, 0.0, 0.0, 0.0);
-    glShadeModel (GL_SMOOTH);
-
-    glLightfv(GL_LIGHT0, GL_POSITION, posicaoDaLuz.v);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, corDaLuz.v);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, corDaLuz.v);
-    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.05f);
-
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-
-    glEnable(GL_LIGHT0);
-    glEnable(GL_DEPTH_TEST);
-}
-
 // LABIRINTO
 ponto entrada,saida;
+void comecarJogoNovo() {
+  x=z=6;
+  contItens=0;
+  inicializa();
+}
 
 void cubo3d(float x, float y, float z, float largura, float altura, float profundidade){
 
 	largura=largura/2;
 	altura=altura/2;
 	profundidade=profundidade/2;
+  glColor3f(0.5f,0.5f,0.5f);
 	glPushMatrix();
-
-
-		glEnable(GL_TEXTURE_2D);	//habilita textura
+    glMaterialfv(GL_FRONT, GL_AMBIENT,  Parede.ambiente.v);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE,  Parede.difusa.v);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, Parede.especular.v);
+    glMaterialfv(GL_FRONT, GL_SHININESS,Parede.brilhosidade);
+  	glEnable(GL_TEXTURE_2D);	//habilita textura
 		glBindTexture(GL_TEXTURE_2D, textureWalls);
 
     //cima
@@ -111,21 +92,18 @@ void cubo3d(float x, float y, float z, float largura, float altura, float profun
 			glTexCoord2f(0,1); glVertex3f(x-largura,y+altura,z+profundidade);
 		glEnd();
 	glPopMatrix();
-
   glDisable(GL_TEXTURE_2D);
 
+
 }
-/* glMaterialfv(GL_FRONT, GL_AMBIENT, l.mat.ambiente.v);
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, l.mat.difusa.v);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, l.mat.especular.v);
-  glMaterialfv(GL_FRONT, GL_SHININESS, l.mat.brilhosidade);
-*/
+
 void desenhaMapaParede(float x, float y, float z, float largura, float altura, float profundidade){
 	glPushMatrix();
 	glColor3f(0,0,0);
   glTranslatef(x,y,z);
  	  cubo3d(x,y,z,largura,altura,profundidade);
   glPopMatrix();
+
 }
 void geraLabirinto() {
   int metodo;
@@ -136,67 +114,102 @@ void geraLabirinto() {
 
   if(metodo == 0){
     dfsGenerate(lab_Master);
-  printf("ok1\n");
   } else if(metodo == 1){
     btreeGenerate(lab_Master);
   }
   printstd(lab_Master);
 }
 
-void desenhaLabirinto(Labirinto labirinto){
-  int y,x;
-//  printf("entrei\n" );
-  float posicaoX=0,posicaoY=0,posicaoZ=0;
-  for(y=0;y<labirinto.linhas;y++){
-		int offset = y*labirinto.colunas;
-		for(x=0;x<labirinto.colunas;x++){
-			char c = labirinto.mapa[offset +x];
-			if(c == WALL){
-				c = WALL_CHAR;
-        desenhaMapaParede(posicaoX,2,posicaoZ,8,8,8);
-        posicaoZ+=4;
-        //printf("Wall\n");
-  		}else if(haveMask(c,END)){
-				c = END_CHAR;
-        printf("End\n");
-        saida.x = posicaoX+2;
-        saida.z = posicaoZ+2;
-			}else if(haveMask(c,BEGIN)){
-				c = BEGIN_CHAR;
-        printf("Begin\n");
-        entrada.x = posicaoX+1;
-        entrada.z = posicaoZ+1;
-              //printf("%f %f ",posicaoX+1,entrada.z);
-			}else {
-				c = SPACE_CHAR;
-        //printf("vazio\n");
-        posicaoZ+=4;
-			}
-		}
-    posicaoX+=4;
-    posicaoZ=0;
-	}
-      //printf("%d\n",labirinto.linhas*labirinto.colunas);
+void itenAleatorio() {
+  int x = rand()%10000;
+  float cor[3];
+  cor[0] = (rand()%100)/100;
+  cor[1] = (rand()%100)/100;
+  cor[2] = (rand()%100)/100;
+
+  if(x>0 && x <60){
+    glPushMatrix();
+      glTranslatef(posicaoX,1.5f,posicaoZ);
+      glutSolidSphere(1.5,20,20);
+    glPopMatrix();
+    contItens++;
+  }else if(x>90 && x <150){
+    glPushMatrix();
+      glTranslatef(posicaoX,1.5f,posicaoZ);
+      glutSolidTetrahedron();
+    glPopMatrix();
+    contItens++;
+  }else if(x>1480 && x <1560){
+    glPushMatrix();
+      glTranslatef(posicaoX,1.5f,posicaoZ);
+      glutSolidOctahedron();
+    glPopMatrix();
+    contItens++;
+  }else if(x>400 && x <570){
+    glPushMatrix();
+      glTranslatef(posicaoX,1.5f,posicaoZ);
+    glutSolidDodecahedron();
+    glPopMatrix();
+    contItens++;
+  }else if(x>1200 && x <1375){
+    glPushMatrix();
+      glTranslatef(posicaoX,1.5f,posicaoZ);
+    glutSolidIcosahedron();
+    glPopMatrix();
+    contItens++;
+  }else if(x>5200 && x<5575){
+    glPushMatrix();
+      glTranslatef(posicaoX,1.5f,posicaoZ);
+    glutSolidTeapot(2);
+    glPopMatrix();
+    contItens++;
+  }
 }
 
-void matrizmovimento(Labirinto labirinto){
+void desenhaLabirinto(Labirinto labirinto){
+  int y,x;
+  char aux;
+  float posicaoX=0,posicaoY=0,posicaoZ=0;
+  for(y=0;y<labirinto.linhas;y++){
+    int offset = y*labirinto.colunas;
+    for(x=0;x<labirinto.colunas;x++){
+	  			char c = labirinto.mapa[offset +x];
+      if(c == WALL){
+				c = WALL_CHAR;
+        matriz_map[y][x]=c;
+  		}else {
+				c = SPACE_CHAR;
+        matriz_map[y][x]=c;
+    	}
+		}
+	}
+  for (y = 0; y<linhas ; y++) {
+      for (x = 0; x < colunas; x++) {
+          if(matriz_map[y][x] == 'X'){
+            desenhaMapaParede(posicaoX,2.0f,posicaoZ,8,12,8);
+          }
+          posicaoX += 4;
+      }
+      posicaoZ += 4;
+      posicaoX = 0;
+  }
 
-	int y,x;
-	for(y=0;y<labirinto.linhas;y++){
-		int offset = y*labirinto.colunas;
-		for(x=0;x<labirinto.colunas;x++){
-			char c = labirinto.mapa[offset +x];
-			if(c == WALL){
-				matrizz[y][x]=1;
-			}else {
-				matrizz[y][x]=0;
-			}
-            }
-      }
-      for(y=0;y<labirinto.linhas;y++){
-            for(x=0;x<labirinto.colunas;x++){
-                  printf("%d",matrizz[y][x]);
-            }
-            printf("\n");
-      }
+  glColor3f(0.8f,0.0f,0.0f);
+  glPushMatrix();
+    glTranslatef(saida.x,2.0f,saida.z);
+    glutSolidSphere(2,30,30);
+  glPopMatrix();
+
+}
+void desenhaFog(){
+  float cor[3] = { 0.2f, 0.6f, 1.0f };
+  glClearColor(cor[0], cor[1], cor[2], 1.0f);
+
+  glFogi(GL_FOG_MODE, GL_EXP);        // Linear, exp. ou exp²
+  glFogfv(GL_FOG_COLOR, cor);         // Cor
+  glFogf(GL_FOG_DENSITY, 0.01f);      // Densidade
+  glHint(GL_FOG_HINT, GL_DONT_CARE);  // Não aplicar se não puder
+  glFogf(GL_FOG_START, 9000000000*900000000.0f);         // Profundidade inicial
+  glFogf(GL_FOG_END, 9000000000*90000000000.0f);           // Profundidade final
+  glEnable(GL_FOG);
 }

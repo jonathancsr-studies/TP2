@@ -3,16 +3,16 @@
 #include "io/tui.h"
 #include "io/arquivador.h"
 
-extern int pular=0;
 extern int cameradefine=0;
 extern int lanterna=0;
 int modoDoJogo=0;
+extern MAPACORES matriz_cores_map[200][200];
 extern PERNA p[2];
 extern BRACO b[2];
 extern char mapLab;
 // Labirinto tamanhao
-int linhas=20,colunas=20;
-//
+int linhas=4,colunas=4;
+extern int pular=0;
 int larguraJanela,alturaJanela;
 extern float angle=0.0f;
 // actual vector representing the camera's direction
@@ -21,9 +21,11 @@ extern float lx=0.0f,lz=-1.0f,ly= 0.0f;
 extern float camera_x=0.0f,camera_z=5.0f,camera_y=2.0f;
 extern int width, height;
 extern float posicaoX,posicaoZ;
-extern ponto entrada;
+extern ponto entrada,saida;
 Labirinto lab_Master;
-extern int matrizz[200][200];
+extern matrizz[200][200];
+// music
+extern Mix_Music *somAmbiente;
 
 void camera(){
     if(cameradefine == 0){
@@ -31,8 +33,8 @@ void camera(){
  			camera_x+lx, camera_y,  camera_z+lz,
  			0.0f, 1.0f,  0.0f);
       }else{
-    gluLookAt(	camera_x-CAMERAPERSONAGEM*sin(angle), camera_y+3.0f, camera_z+CAMERAPERSONAGEM*cos(angle),
-			camera_x-CAMERAPERSONAGEM*sin(angle)+lx, camera_y+3.0f,  camera_z+CAMERAPERSONAGEM*cos(angle)+lz,
+    gluLookAt(	camera_x-CAMERAPERSONAGEM*sin(angle), 6.0f, camera_z+CAMERAPERSONAGEM*cos(angle),
+			camera_x-CAMERAPERSONAGEM*sin(angle)+lx, 6.0f,  camera_z+CAMERAPERSONAGEM*cos(angle)+lz,
 			0.0f, 1.0f,  0.0f);
     }
 }
@@ -54,6 +56,7 @@ void desenhaCena(){
   glShadeModel(GL_SMOOTH);
   glLoadIdentity();
 	//ATIVA A CAMERA GLULOOKAT
+  desenhaFog();
 	camera();
   //DESENHA LUZES
   //luzes();
@@ -63,22 +66,28 @@ void desenhaCena(){
 	plano(camera_x,camera_z,larguraJanela,0,1,1,1);
   //DESENHA O LABIRINTO
   desenhaLabirinto(lab_Master);
+  glPushMatrix();
+    glTranslatef(linhas+2,2.0,colunas+2);
+    glutSolidTeapot(3);
+  glPopMatrix();
   glDisable(GL_LIGHTING);
   glutSwapBuffers();
 }
 
 void inicializa(void)
 {
-  //carregaMapa(matriz_cores_map);
   geraLabirinto(lab_Master);
-  configuraIluminacao();
+  configuraIluminacao_Textura();
+  loadTexture();
+  abrir_audio();
   glClearColor(0.6,0.0,0.0,1.0);
-  camera_x=8.0f,camera_z=8.0f,camera_y=4.0f;
+  camera_x=8,camera_z=8,camera_y=4.0f;
   matrizmovimento(lab_Master);
+
 }
 
 int main(int argc, char **argv) {
-
+      SDL_Init (SDL_INIT_AUDIO);
 
       glutInit(&argc, argv);
       glutInitContextVersion(1,1);
@@ -89,12 +98,16 @@ int main(int argc, char **argv) {
       glutCreateWindow("JOGO");
       inicializa();
 
+      Mix_PlayMusic(somAmbiente, -1);
+
       glutDisplayFunc(desenhaCena);
       glutReshapeFunc(redimensionada);
       glutKeyboardFunc(teclasPressionada);
       glutSpecialFunc(setasPressionadas);
       glutIdleFunc(desenhaCena);
       glEnable(GL_DEPTH_TEST);
+      atexit (SDL_Quit);
+      printf("saida.x = %lf saida.z = %lf\n",saida.x,saida.z);
       glutMainLoop();
       return 0;
 }
