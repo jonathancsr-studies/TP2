@@ -1,10 +1,10 @@
 #include "lib/include.h"
 extern unsigned int textureWalls;
-float x,z,angle,lx,lz;
+float camera_x,camera_z,angle,lx,lz;
 int cameradefine;
 extern Labirinto lab_Master;
 extern int linhas,colunas;
-
+int matrizz[200][200];
 void plano(float x1,float z1,int larguraJanela,int alturaJanela,float r,float g,float b){
     // teto e terreno
     glPushMatrix();
@@ -49,7 +49,6 @@ void configuraIluminacao() {
 }
 
 // LABIRINTO
-float posicaoX=0,posicaoZ=0;
 ponto entrada,saida;
 
 void cubo3d(float x, float y, float z, float largura, float altura, float profundidade){
@@ -159,14 +158,15 @@ void desenhaLabirinto(Labirinto labirinto){
         //printf("Wall\n");
   		}else if(haveMask(c,END)){
 				c = END_CHAR;
-        //printf("End\n");
+        printf("End\n");
         saida.x = posicaoX+2;
         saida.z = posicaoZ+2;
 			}else if(haveMask(c,BEGIN)){
 				c = BEGIN_CHAR;
-        //printf("Begin\n");
+        printf("Begin\n");
         entrada.x = posicaoX+1;
         entrada.z = posicaoZ+1;
+              //printf("%f %f ",posicaoX+1,entrada.z);
 			}else {
 				c = SPACE_CHAR;
         //printf("vazio\n");
@@ -176,4 +176,27 @@ void desenhaLabirinto(Labirinto labirinto){
     posicaoX+=4;
     posicaoZ=0;
 	}
+      //printf("%d\n",labirinto.linhas*labirinto.colunas);
+}
+
+void matrizmovimento(Labirinto labirinto){
+
+	int y,x;
+	for(y=0;y<labirinto.linhas;y++){
+		int offset = y*labirinto.colunas;
+		for(x=0;x<labirinto.colunas;x++){
+			char c = labirinto.mapa[offset +x];
+			if(c == WALL){
+				matrizz[y][x]=1;
+			}else {
+				matrizz[y][x]=0;
+			}
+            }
+      }
+      for(y=0;y<labirinto.linhas;y++){
+            for(x=0;x<labirinto.colunas;x++){
+                  printf("%d",matrizz[y][x]);
+            }
+            printf("\n");
+      }
 }

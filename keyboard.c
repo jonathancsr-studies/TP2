@@ -5,46 +5,53 @@ int angulo;
 // actual vector representing the camera's direction
 float lx,lz,ly;
 // XZ position of the camera
-float x,z,y;
+float camera_x,camera_z,camera_y;
 int cameradefine,lanterna;
 PERNA p[2];
 BRACO b[2];
-MAPACORES matriz_cores_map[200][200];
-//float x,z;
+int pular;
+int matrizz[200][200];
+
 void teclasPressionada(unsigned char key, int a, int w){
 
-float fraction = 0.1f;
-
+float fraction = 0.7f;
+int x,z;
+x=(camera_x/4)-1;
+z=(camera_z/4)-1;
   switch (key) {
             case' ':
-                  y++;
+
+            if(pular==0){
+            pular=1;
+            puloPersonagem();
+      }
                   break;
 		case 'a' :
     case 'A' :
-			angle -= PI/2;
+			angle -= (5*PI)/180;
 			lx = sin(angle);
 			lz = -cos(angle);
-                  angulo+=90;
+                  angulo+=5;
 
 			break;
 		case 'd' :
     case 'D' :
-			angle += PI/2;
+			angle += (5*PI)/180;
 			lx = sin(angle);
 			lz = -cos(angle);
-                  angulo-=90;
+                  angulo-=5;
 			break;
 		case 's' :
     case 'S' :
                   movimentacaoMembros(1);
-			x -= lx * fraction;
-			z -= lz * fraction;
+			camera_x -= lx * fraction;
+			camera_z -= lz * fraction;
 			break;
 		case 'w':
     case 'W':
                   movimentacaoMembros(0);
-			x += lx * fraction;
-			z += lz * fraction;
+			camera_x += lx * fraction;
+			camera_z += lz * fraction;
 			break;
     case'c':
     case'C':
@@ -65,12 +72,14 @@ float fraction = 0.1f;
                   b[1].angulo=40;
             }
           break;
-     case'q':
-     		y++;
-    		break;
-     case'Q':
- 		     y--;
-		break;
+          case'q':
+          camera_y++;
+          break;
+          case'm':
+          printf("0-%f %f \n",camera_x,camera_z);
+          printf("1-%d %d \n",x,z);
+          printf("p-%d\n",matrizz[x][z]);
+          break;
     case 27:
         exit(0);
         break;
@@ -83,46 +92,34 @@ float fraction = 0.1f;
 
 void setasPressionadas(int key, int a, int b){
 
-      float fraction = 1.0f;
-      int x1=x/6,z1=z/6,lx1=lx/6,lz1=lz/6;
-
-      if(x<0){
-            x1=-x/6;
-      }
-      if(z<0){
-            z1=-z/6;
-      }
+      float fraction = 0.1f;
+      int x,z,lx1=lx+0.6,lz1=lz+0.6;
+      x=(camera_x/4)-1;
+      z=(camera_z/4)-1;
       switch (key) {
             case GLUT_KEY_LEFT :
-            angle -= PI/2;
+            angle -= (5*PI)/180;
             lx = sin(angle);
             lz = -cos(angle);
-            angulo+=90;
-
+            angulo+=5;
                   break;
             case GLUT_KEY_RIGHT :
-            angle += PI/2;
+            angle += (5*PI)/180;
             lx = sin(angle);
             lz = -cos(angle);
-            angulo-=90;
+            angulo-=5;
                   break;
             case GLUT_KEY_UP :
-            printf("\n %d %d",x1,z1);
-            printf("\n %f %f",x,z);
-            printf("\n %f %f  %f",matriz_cores_map[x1+lx1][z1+lz1].crgb[0],matriz_cores_map[x1+lx1][z1+lz1].crgb[1],matriz_cores_map[x1+lx1][z1+lz1].crgb[2]);
-            if(matriz_cores_map[x1+lx1][z1+lz1].crgb[0]!=0  || matriz_cores_map[x1+lx1][z1+lz1].crgb[1]!=0 || matriz_cores_map[x1+lx1][z1+lz1].crgb[2]!=0){
-
+            if(matrizz[x][z]==0){
             movimentacaoMembros(0);
-            x += lx * fraction;
-            z += lz * fraction;
+            camera_x += lx * fraction;
+            camera_z += lz * fraction;
       }
                   break;
             case GLUT_KEY_DOWN :
-            if(matriz_cores_map[x1][z1].crgb[0]!=0  || matriz_cores_map[x1][z1].crgb[1]!=0 || matriz_cores_map[x1][z1].crgb[2]!=0){
             movimentacaoMembros(1);
-            x -= lx * fraction;
-            z -= lz * fraction;
+            camera_x -= lx * fraction;
+            camera_z -= lz * fraction;
                   break;
-            }
       }
 }

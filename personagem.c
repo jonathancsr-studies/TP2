@@ -5,8 +5,9 @@ PERNA p[2];
 BRACO b[2];
 int andar=1,braco=1,lanterna;
 extern ponto entrada;
-float x,z;
-
+extern int pular;
+float camera_x,camera_z,camera_y,pulo;
+int maximo=0;
 void desenhaLanterna(){
       glPushMatrix();
       glColor3f(0.1,0.1,0);
@@ -102,7 +103,7 @@ void desenhaPersonagem()
    glClear (GL_COLOR_BUFFER_BIT);
    glColor3f(0.5,0.5,0.5);
    glPushMatrix();
-    glTranslatef(x,3.0,z);
+    glTranslatef(camera_x,camera_y-1,camera_z);
    glPushMatrix();
    glRotatef ((GLfloat) angulo, 0.0, 1.0, 0.0);
    glPushMatrix();
@@ -186,4 +187,26 @@ void movimentacaoMembros(int option){
                 braco=0;
           }
       }
+}
+
+
+void puloPersonagem(){
+
+      if(maximo==0){
+            camera_y+=0.5;
+            if(camera_y>=7.0){
+            maximo=1;
+            }
+      }else{
+            camera_y-=0.5;
+      }
+
+      if(maximo==1&&camera_y<=3)
+      {
+            pular=0;
+            maximo=0;
+      }
+
+      if(pular)
+      glutTimerFunc(50,puloPersonagem,0);
 }
